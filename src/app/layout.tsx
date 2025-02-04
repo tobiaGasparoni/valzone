@@ -1,5 +1,9 @@
+"use client";
+
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { useEffect, useState } from "react";
+import { Amplify } from "aws-amplify";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -22,6 +26,27 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [configured, setConfigured] = useState(false);
+
+  useEffect(() => {
+    async function fetchConfig() {
+      try {
+        const response = await fetch("/amplify_outputs.json");
+        const config = await response.json();
+        Amplify.configure(config);
+        setConfigured(true);
+      } catch (error) {
+        console.error("Failed to fetch Amplify config:", error);
+      }
+    }
+
+    fetchConfig();
+  }, []);
+
+  if (!configured) {
+    return <p>Loading...</p>; // Avoid rendering app before config is set
+  }
+
   return (
     <html lang="en" className="h-full bg-white">
       <body

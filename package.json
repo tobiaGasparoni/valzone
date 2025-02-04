@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@aws-amplify/auth": "^6.10.2",
     "@headlessui/react": "^2.2.0",
     "@heroicons/react": "^2.2.0",
     "aws-amplify": "^6.12.3",
