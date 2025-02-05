@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { Dialog, DialogPanel } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import Image from 'next/image'
 
 const navigation = [
   { name: 'Product', href: '#' },
@@ -21,7 +22,7 @@ export default function Example() {
           <div className="flex lg:flex-1">
             <a href="#" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
-              <img
+              <Image
                 alt=""
                 src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
                 className="h-8 w-auto"
@@ -57,7 +58,7 @@ export default function Example() {
             <div className="flex items-center justify-between">
               <a href="#" className="-m-1.5 p-1.5">
                 <span className="sr-only">Your Company</span>
-                <img
+                <Image
                   alt=""
                   src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
                   className="h-8 w-auto"
@@ -166,7 +167,7 @@ export default function Example() {
                 clipPath="url(#2ade4387-9c63-4fc4-b754-10e687a0d332)"
                 transform="translate(24 24)"
               >
-                <img alt="" src="https://tailwindui.com/plus/img/component-images/mobile-app-screenshot.png" />
+                <Image alt="" src="https://tailwindui.com/plus/img/component-images/mobile-app-screenshot.png" />
               </foreignObject>
             </svg>
           </div>
