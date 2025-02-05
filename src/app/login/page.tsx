@@ -30,8 +30,12 @@ export default function LoginPage() {
           default:
             setError(error.message || 'An unexpected auth error occurred');
         }
-      } else {
+      } else if (error instanceof Error) {
+        // Here, we're checking if the error is an instance of the general Error object
         setError(error.message || 'An unexpected error occurred');
+      } else {
+        // Fallback case for unknown error types
+        setError('An unknown error occurred');
       }
     }
   };
