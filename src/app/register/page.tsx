@@ -1,5 +1,6 @@
 "use client";
 import { signUp } from "@aws-amplify/auth";
+import { AuthError } from '@aws-amplify/auth';
 import { useState } from "react";
 
 export default function RegisterPage() {
@@ -16,10 +17,31 @@ export default function RegisterPage() {
         options: { userAttributes: { email } },
       });
       setSuccess(true);
-    } catch (err: any) {
-      setError(err.message || "Failed to register");
+    } catch (error: unknown) {
+      if (error instanceof AuthError) {
+        switch (error.name) {
+          case 'SignUpException':
+            setError(error.message || 'Sign-up failed');
+            break;
+          case 'AuthValidationErrorCode':
+            setError(error.message || 'Validation error during sign-up');
+            break;
+          case 'AuthTokenConfigException':
+            setError(error.message || 'Invalid token configuration');
+            break;
+          default:
+            setError(error.message || 'An unexpected auth error occurred');
+        }
+      } else if (error instanceof Error) {
+        // Here, we're checking if the error is an instance of the general Error object
+        setError(error.message || 'An unexpected error occurred');
+      } else {
+        // Fallback case for unknown error types
+        setError('An unknown error occurred');
+      }
     }
   };
+  
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
