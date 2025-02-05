@@ -1,5 +1,6 @@
 "use client";
-import { signIn, signUp, signOut } from "@aws-amplify/auth"
+import { signIn } from "@aws-amplify/auth"
+import { AuthError } from '@aws-amplify/auth';
 import { useState } from "react";
 
 export default function LoginPage() {
@@ -11,8 +12,27 @@ export default function LoginPage() {
     try {
       await signIn({ username: email, password });
       alert("Logged in successfully!");
-    } catch (err: any) {
-      setError(err.message || "Failed to log in");
+    } catch (error: unknown) {
+      if (error instanceof AuthError) {
+        switch (error.name) {
+          case 'InitiateAuthException':
+            setError(error.message || 'Authentication initiation failed');
+            break;
+          case 'RespondToAuthChallengeException':
+            setError(error.message || 'Auth challenge failed');
+            break;
+          case 'AuthValidationErrorCode':
+            setError(error.message || 'Validation error during sign in');
+            break;
+          case 'AuthTokenConfigException':
+            setError(error.message || 'Invalid token configuration');
+            break;
+          default:
+            setError(error.message || 'An unexpected auth error occurred');
+        }
+      } else {
+        setError(error.message || 'An unexpected error occurred');
+      }
     }
   };
 
